@@ -1,7 +1,7 @@
 import os
 import datetime
 
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -10,7 +10,14 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def hello_world():
-        return 'Hello, World!'
+    if request.method == 'POST':
+        return 'I create a new link'
+    else:
+        return 'Simple UI'
+
+@app.route('/<short>')
+def expand(short):
+    return 'I expand ' + short + ' to the full URL'
 
 @app.route('/health')
 def healthcheck():
