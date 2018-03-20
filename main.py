@@ -1,15 +1,23 @@
-import os
 import datetime
+import os
+import random
+import string
 
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+
+
+# Initialize app
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+
+# Database model
 
 class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,12 +40,25 @@ class Link(db.Model):
             return None
 
 
+# Generate a new link
+
+def newkey():
+    while True:
+        key = ''.join([random.choice(string.ascii_lowercase) for _ in range(3)])
+        if not Link.query.filter_by(short=key).first():
+            return key
+
+
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     if request.method == 'POST':
+        link = Link(short=newkey(), full=request.form.url)
         return 'I create a new link'
     else:
         return 'Simple UI'
+
+
+# Expand a short URL into a redirect
 
 @app.route('/<short>')
 def expand(short):
@@ -46,6 +67,9 @@ def expand(short):
         return url
     else:
         return 'No URL with key ' + short + ' found', 404
+
+
+# Basic healthcheck for orchestration and monitoring
 
 @app.route('/health')
 def healthcheck():
