@@ -2,7 +2,6 @@ import os
 import datetime
 
 from flask import Flask, render_template, request
-from flask.ext.api import status
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -44,7 +43,7 @@ def expand(short):
     if url:
         return url
     else:
-        return 'No URL with key ' + short + ' found', status.HTTP_404_NOT_FOUND
+        return 'No URL with key ' + short + ' found', 404
 
 @app.route('/health')
 def healthcheck():
@@ -59,5 +58,5 @@ def healthcheck():
     if Link.request('health'):
         return 'OK'
     else:
-        return 'Err', HTTP_500_INTERNAL_SERVER_ERROR
+        return 'Err', 500
 
