@@ -1,1 +1,3 @@
 openshift/database_secret.yaml
+__pycache__
+local.sqlite

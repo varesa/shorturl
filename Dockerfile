@@ -10,4 +10,4 @@ ENV LC_ALL=en_US.utf-8
 
 ENV FLASK_APP=main.py
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["sh", "start.sh"]
