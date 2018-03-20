@@ -54,8 +54,8 @@ def healthcheck():
         return 'OK'
 
     link = Link(full='https://shorturl.esav.fi/')
-    db.add(link)
-    db.commit()
+    db.session.add(link)
+    db.session.commit()
 
     if Link.request('health'):
         return 'OK'
