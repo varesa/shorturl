@@ -50,10 +50,11 @@ def newkey():
 
 
 @app.route('/', methods=['GET', 'POST'])
-def hello_world():
+def create():
     if request.method == 'POST':
-        link = Link(short=newkey(), full=request.form.url)
-        return 'I create a new link'
+        key = newkey()
+        link = Link(short=key, full=request.form.url)
+        return key
     else:
         return 'Simple UI'
 
