@@ -3,7 +3,7 @@ import os
 import random
 import string
 
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -64,7 +64,7 @@ def hello_world():
 def expand(short):
     url = Link.request(short)
     if url:
-        return url
+        return redirect(url)
     else:
         return 'No URL with key ' + short + ' found', 404
 
