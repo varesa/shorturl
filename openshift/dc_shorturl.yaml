@@ -39,16 +39,6 @@ spec:
             secretKeyRef:
               key: url
               name: shorturl-database
-        - name: DATABASE_USER
-          valueFrom:
-            secretKeyRef:
-              key: username
-              name: shorturl-database
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: shorturl-database
         image: 172.30.150.112:5000/misc/shorturl@sha256:f8ec881c4a9c583c746e1b3b4781bc47dd0d4a3ddfc90cbfc00ed6501a4449a4
         imagePullPolicy: Always
         livenessProbe:
