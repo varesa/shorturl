@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - env:
-        - name: DATABASE_URL
+        - name: DATABASE_URI
           valueFrom:
             secretKeyRef:
               key: url
