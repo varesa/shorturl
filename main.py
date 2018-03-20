@@ -1,27 +1,14 @@
 import os
 import datetime
 
-from flask import Flask, request
+from flask import Flask, render_template, request
+from flask.external.api import status
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
 db = SQLAlchemy(app)
 
-@app.route('/')
-def hello_world():
-    if request.method == 'POST':
-        return 'I create a new link'
-    else:
-        return 'Simple UI'
-
-@app.route('/<short>')
-def expand(short):
-    return 'I expand ' + short + ' to the full URL'
-
-@app.route('/health')
-def healthcheck():
-        return 'OK'
 
 class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -42,3 +29,35 @@ class Link(db.Model):
             return link.full
         else:
             return None
+
+
+@app.route('/', methods=['GET', 'POST'])
+def hello_world():
+    if request.method == 'POST':
+        return 'I create a new link'
+    else:
+        return 'Simple UI'
+
+@app.route('/<short>')
+def expand(short):
+    url = Link.request(short)
+    if url:
+        return url
+    else:
+        return 'No URL with key ' + short + ' found', status.HTTP_404_NOT_FOUND
+
+@app.route('/health')
+def healthcheck():
+    link = Link.request('health')
+    if link:
+        return 'OK'
+
+    link = Link(full='https://shorturl.esav.fi/')
+    db.add(link)
+    db.commit()
+
+    if Link.request('health'):
+        return 'OK'
+    else:
+        return 'Err', HTTP_500_INTERNAL_SERVER_ERROR
+
