@@ -31,10 +31,11 @@ class Link(db.Model):
 
     @staticmethod
     def request(short):
-        link = Link.query.filter_by(short=short).first()
+        link = db.session.query(Link).filter_by(short=short).first()
         if link:
             link.requested = datetime.datetime.utcnow()
             link.request_count += 1
+            db.session.commit()
             return link.full
         else:
             return None
