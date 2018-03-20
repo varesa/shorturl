@@ -54,6 +54,8 @@ def create():
     if request.method == 'POST':
         key = newkey()
         link = Link(short=key, full=request.form.get('url'))
+        db.session.add(link)
+        db.session.commit()
         return "https://s.esav.fi/" + key
     else:
         return 'Simple UI'
