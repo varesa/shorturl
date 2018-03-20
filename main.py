@@ -53,7 +53,7 @@ def healthcheck():
     if link:
         return 'OK'
 
-    link = Link(full='https://shorturl.esav.fi/')
+    link = Link(short='health', full='https://shorturl.esav.fi/')
     db.session.add(link)
     db.session.commit()
 
