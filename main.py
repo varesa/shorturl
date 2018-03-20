@@ -59,7 +59,7 @@ def create():
         db.session.commit()
         return "https://s.esav.fi/" + key
     else:
-        return 'Simple UI'
+        return render_template("front.html")
 
 
 # Expand a short URL into a redirect
