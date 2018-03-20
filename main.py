@@ -2,7 +2,7 @@ import os
 import datetime
 
 from flask import Flask, render_template, request
-from flask.external.api import status
+from flask.ext.api import status
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
